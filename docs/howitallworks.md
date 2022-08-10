@@ -26,7 +26,7 @@ Has a postgres database located here:
 [Django Admin](functions/django_admin.md)
 
 !!!description
-    A web interface for the postgres database
+    A web interface for the Postgres database.
 
 All Tactical RMM dependencies are listed [here](https://github.com/amidaware/tacticalrmm/blob/develop/api/tacticalrmm/requirements.txt).
 
@@ -52,11 +52,11 @@ This lists the system services used by the server.
 
 #### Nginx Web Server
 
-Nginx is the web server for the `rmm`, `api`, and `mesh` domains. All sites redirect port 80 (HTTP) to port 443 (HTTPS).
+Nginx is the web server for the `rmm`, `api`, and `mesh` domains. All sites will redirect port 80 (HTTP) to port 443 (HTTPS) if both ports are open.
 
-???+ abstract "nginx configuration (a.k.a. sites available)"
+???+ abstract "Nginx configuration (a.k.a. sites available)"
 
-    - [nginx configuration docs](https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/)
+    - [Nginx configuration docs](https://docs.nginx.com/nginx/admin-guide/basic-functionality/managing-configuration-files/)
 
     === ":material-web: `rmm.example.com`"
 
@@ -95,7 +95,7 @@ Nginx is the web server for the `rmm`, `api`, and `mesh` domains. All sites redi
 
     === ":material-web: default"
 
-        This is the default site installed with nginx. This listens on port 80 only.
+        This is the default site installed with Nginx. This listens on port 80 only.
 
         - Config: `/etc/nginx/sites-enabled/default`
         - root: `/var/www/rmm/dist`
@@ -114,7 +114,7 @@ Nginx is the web server for the `rmm`, `api`, and `mesh` domains. All sites redi
         - Test config: `nginx -t`
         - Listening process: `ss -tulnp | grep nginx`
 
-    === ":material-ubuntu: standard"
+    === ":material-ubuntu: Standard"
 
         - Service: `nginx.service`
         - Address: `0.0.0.0`
@@ -122,9 +122,9 @@ Nginx is the web server for the `rmm`, `api`, and `mesh` domains. All sites redi
         - Exec: `/usr/sbin/nginx -g 'daemon on; master_process on;'`
         - Version: 1.18.0
 
-    === ":material-docker: docker"
+    === ":material-docker: Docker"
 
-        - From the docker host view container status - `docker ps --filter "name=trmm-nginx"`
+        - From the Docker host view container status - `docker ps --filter "name=trmm-nginx"`
         - View logs: `docker-compose logs tactical-nginx`
         - "tail" logs: `docker-compose logs tactical-nginx | tail`
         - Shell access: `docker exec -it trmm-nginx /bin/bash`
@@ -149,7 +149,7 @@ Built on the Django framework, the Tactical RMM service is the heart of the syst
             - View the logs: `journalctl --identifier uwsgi --since "30 minutes ago" | less`
             - Debug logs for 5xx errors will be located in `/rmm/api/tacticalrmm/tacticalrmm/private/log`
 
-    === ":material-ubuntu: standard"
+    === ":material-ubuntu: Standard"
     
         - Service: `rmm.service`
         - Socket: `/rmm/api/tacticalrmm/tacticalrmm.sock`
@@ -158,9 +158,9 @@ Built on the Django framework, the Tactical RMM service is the heart of the syst
         - Journal identifier: `uwsgi`
         - Version: 2.0.18
     
-    === ":material-docker: docker"
+    === ":material-docker: Docker"
 
-        - From the docker host view container status - `docker ps --filter "name=trmm-backend"`
+        - From the Docker host view container status - `docker ps --filter "name=trmm-backend"`
         - View logs: `docker-compose logs tactical-backend`
         - "tail" logs: `docker-compose logs tactical-backend | tail`
         - Shell access: `docker exec -it trmm-backend /bin/bash`
@@ -183,7 +183,7 @@ Built on the Django framework, the Tactical RMM service is the heart of the syst
             - "tail" the logs: `journalctl --identifier daphne --follow`
             - View the logs: `journalctl --identifier daphne --since "30 minutes ago" | less`
 
-    === ":material-ubuntu: standard"
+    === ":material-ubuntu: Standard"
 
         - Service: `daphne.service`
         - Socket: `/rmm/daphne.sock`
@@ -191,9 +191,9 @@ Built on the Django framework, the Tactical RMM service is the heart of the syst
         - Config: `/rmm/api/tacticalrmm/tacticalrmm/local_settings.py`
         - Log: `/rmm/api/tacticalrmm/tacticalrmm/private/log/debug.log`
 
-    === ":material-docker: docker"
+    === ":material-docker: Docker"
 
-        - From the docker host view container status - `docker ps --filter "name=trmm-websockets"`
+        - From the Docker host view container status - `docker ps --filter "name=trmm-websockets"`
         - View logs: `docker-compose logs tactical-websockets`
         - "tail" logs: `docker-compose logs tactical-websockets | tail`
         - Shell access: `docker exec -it trmm-websockets /bin/bash`
@@ -219,7 +219,7 @@ Built on the Django framework, the Tactical RMM service is the heart of the syst
         - Listening process: `ss -tulnp | grep nats-server`
         - Checking for NATS or websocket problems `sudo journalctl --no-pager -u nats` and `sudo journalctl --no-pager -u nats-api`
 
-    === ":material-ubuntu: standard"
+    === ":material-ubuntu: Standard"
     
         - Service: `nats.service`
         - Address: `0.0.0.0`
@@ -230,9 +230,9 @@ Built on the Django framework, the Tactical RMM service is the heart of the syst
         - Log: None
         - Version: v2.3.3
     
-    === ":material-docker: docker"
+    === ":material-docker: Docker"
     
-        - Get into bash in your docker with: `docker exec -it trmm-nats /bin/bash`
+        - Get into bash in your Docker container with: `docker exec -it trmm-nats /bin/bash`
         - Log: `nats-api -log debug`
         - Shell access: `docker exec -it trmm-nats /bin/bash`
 
@@ -248,7 +248,7 @@ Built on the Django framework, the Tactical RMM service is the heart of the syst
         - Restart: `systemctl restart nats-api.service`
         - journalctl: This application does not appear to log anything.
 
-    === ":material-ubuntu: standard"
+    === ":material-ubuntu: Standard"
     
          - Service: `nats-api.service`
          - Exec: `/usr/local/bin/nats-api --config /rmm/api/tacticalrmm/nats-api.conf`
@@ -256,9 +256,9 @@ Built on the Django framework, the Tactical RMM service is the heart of the syst
              - TLS: `/etc/letsencrypt/live/example.com/fullchain.pem`
          - Log: None
     
-    === ":material-docker: docker"
+    === ":material-docker: Docker"
     
-        - Get into bash in your docker with: `docker exec -it trmm-nats /bin/bash`
+        - Get into bash in your Docker container with: `docker exec -it trmm-nats /bin/bash`
         - Log: `nats-api -log debug`
 
 #### Celery Service
@@ -283,16 +283,16 @@ Log located at `/var/log/celery`
             - View the logs: `journalctl --identifier sh --since "30 minutes ago" | less`
         - Tail logs: `tail -F /var/log/celery/w*-*.log`
 
-    === ":material-ubuntu: standard"
+    === ":material-ubuntu: Standard"
     
         - Service: `celery.service`
         - Exec: `/bin/sh -c '${CELERY_BIN} -A $CELERY_APP multi start $CELERYD_NODES --pidfile=${CELERYD_PID_FILE} --logfile=${CELERYD_LOG_FILE} --loglevel="${CELERYD_LOG_LEVEL}" $CELERYD_OPTS'`
         - Config: `/etc/conf.d/celery.conf`
         - Log: `/var/log/celery/w*-*.log`
     
-    === ":material-docker: docker"
+    === ":material-docker: Docker"
     
-        - From the docker host view container status - `docker ps --filter "name=trmm-celery"`
+        - From the Docker host view container status - `docker ps --filter "name=trmm-celery"`
         - View logs: `docker-compose logs tactical-celery`
         - "tail" logs: `docker-compose logs tactical-celery | tail`
         - Shell access: `docker exec -it trmm-celery /bin/bash`
@@ -316,16 +316,16 @@ Log located at `/var/log/celery`
             - View the logs: `journalctl --identifier sh --since "30 minutes ago" | less`
         - Tail logs: `tail -F /var/log/celery/beat.log`
 
-    === ":material-ubuntu: standard"
+    === ":material-ubuntu: Standard"
     
         - Service: `celerybeat.service`
         - Exec: `/bin/sh -c '${CELERY_BIN} -A ${CELERY_APP} beat --pidfile=${CELERYBEAT_PID_FILE} --logfile=${CELERYBEAT_LOG_FILE} --loglevel=${CELERYD_LOG_LEVEL}'`
         - Config: `/etc/redis/redis.conf`
         - Log: `/var/log/celery/beat.log`
     
-    === ":material-docker: docker"
+    === ":material-docker: Docker"
     
-        - From the docker host view container status - `docker ps --filter "name=trmm-celerybeat"`
+        - From the Docker host view container status - `docker ps --filter "name=trmm-celerybeat"`
         - View logs: `docker-compose logs tactical-celerybeat`
         - "tail" logs: `docker-compose logs tactical-celerybeat | tail`
         - Shell access: `docker exec -it trmm-celerybeat /bin/bash`
@@ -348,14 +348,14 @@ Log located at `/var/log/redis`
         - Restart: `systemctl restart redis-server.service`
         - Tail logs: `tail -F /var/log/redis/redis-server.log`
 
-    === ":material-ubuntu: standard"
+    === ":material-ubuntu: Standard"
     
         - Service: `redis-server.service`
         - Log: `/var/log/redis/redis-server.log`
     
-    === ":material-docker: docker"
+    === ":material-docker: Docker"
     
-        - From the docker host view container status - `docker ps --filter "name=trmm-redis"`
+        - From the Docker host view container status - `docker ps --filter "name=trmm-redis"`
         - View logs: `docker-compose logs tactical-redis`
         - "tail" logs: `docker-compose logs tactical-redis | tail`
         - Shell access: `docker exec -it trmm-redis /bin/bash`
@@ -386,7 +386,7 @@ Config file location:
         - Start: `systemctl start meshcentral`
         - Restart: `systemctl restart meshcentral`
 
-    === ":material-docker: docker"
+    === ":material-docker: Docker"
 
         - From the docker host view container status - `docker ps --filter "name=trmm-meshcentral"`
         - View logs: `docker-compose logs tactical-meshcentral`
@@ -395,8 +395,8 @@ Config file location:
 
     === ":material-remote-desktop: Debugging"
 
-        - Open either "Take Control" or "Remote Background" to get mesh login token.
-        - Open https://mesh.example.com to open native mesh admin interface.
+        - Open either "Take Control" or "Remote Background" to get Mesh login token.
+        - Open https://mesh.example.com to open native Mesh admin interface.
         - Left-side "My Server" > Choose "Console" > type `agentstats`
         - To view detailed logging goto "Trace" > click Tracing button and choose categories.
      
@@ -546,7 +546,7 @@ Choose your method:
     vi /etc/systemd/system/tacticalagent.service
     ```
 
-    Change
+    change
 
     ```
     ExecStart=/usr/local/bin/tacticalagent -m svc

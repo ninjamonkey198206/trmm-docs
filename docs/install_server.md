@@ -87,6 +87,13 @@ ufw allow https
 ```
 
 !!!info
+    If you need Nginx to provide http to https redirect functionality, you'll also need to allow http / port 80 traffic.
+
+```bash
+ufw allow http
+```
+
+!!!info
     SSH (port 22 tcp) is only required for you to remotely login and do basic linux server administration for your rmm. It is not needed for any agent communication.<br/>
 
 ???+ note "SSH Firewall Rule"
